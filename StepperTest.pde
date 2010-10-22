@@ -16,20 +16,63 @@ void setup() {
 char val;
 
 void loop() {
-if(Serial.available())
-  {
-    val = Serial.read();
-  
-    if(val == 'R'){
-      motor.step(1, FORWARD, SINGLE);
+
+    int number = read_serial();
+    
+    if (number > 0){
+      motor.step(number, FORWARD, SINGLE);
       Serial.println("Stepping right.");
     
-    } else if(val == 'L'){
-      motor.step(1, BACKWARD, SINGLE);
+    } else if (number < 0) {
+      number *= -1;
+      motor.step(number, BACKWARD, SINGLE);
       Serial.println("Stepping left.");
     }
     
-  } else {
     motor.release();
+}
+
+int read_serial(){
+  if(Serial.available())
+  {
+    val = Serial.read();
+  
+    int number = 0;
+    
+    if(val == 'R'){
+      
+      do{
+        if(Serial.available())
+        {
+          val = Serial.read();
+          
+          if (val != ';'){
+            number *= 10;
+            number += atoi(&val);
+          }
+        }
+      } while (val != ';');
+    
+    } else if(val == 'L'){
+            
+      do{
+        if(Serial.available())
+        {
+          val = Serial.read();
+          
+          if (val != ';'){
+            number *= 10;
+            number += atoi(&val);
+          }
+        }
+      } while (val != ';');
+    
+    }
+    
+    return number;
+    
+  } else {
+    return 0;
   }
 }
+
