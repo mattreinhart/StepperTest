@@ -20,13 +20,13 @@ void loop() {
     int number = read_serial();
     
     if (number > 0){
-      motor.step(number, FORWARD, SINGLE);
       Serial.println("Stepping right.");
+      motor.step(number, FORWARD, SINGLE);
     
     } else if (number < 0) {
       number *= -1;
-      motor.step(number, BACKWARD, SINGLE);
       Serial.println("Stepping left.");
+      motor.step(number, BACKWARD, SINGLE);
     }
     
     motor.release();
