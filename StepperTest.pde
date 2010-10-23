@@ -10,7 +10,7 @@ void setup() {
   Serial.begin(115200);    // set up Serial library at 115200 bps
   Serial.println("Step to the beat!");
 
-  motor.setSpeed(30);  // 100 rpm   
+  motor.setSpeed(100);  // 100 rpm   
 }
 
 char val;
@@ -66,6 +66,8 @@ int read_serial(){
           }
         }
       } while (val != ';');
+      
+      number *= -1;
     
     }
     
